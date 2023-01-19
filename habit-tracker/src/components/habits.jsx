@@ -1,21 +1,41 @@
 import ReaHt, { Component } from 'react'
 import Habit from './habit'
+import HabitAddForm from './habitAddForm';
 
 export default class Habits extends Component {
-    state = {
-        habits : [
-            { name: 'Reading', conunt: 0},
-            { name: 'Running', conunt: 0},
-            { name: 'Coding', conunt: 0},
-        ],
+
+    handleIncrement = habit => {
+        this.props.onIncrement(habit);
     };
+
+    handleDecrement = habit => {
+        this.props.onDecrement(habit);
+    };
+
+    handleDelete = habit => {
+        this.props.onDelete(habit);
+    };
+
+    handleAdd = name => {
+        this.props.onAdd(name);
+    };
+
     render() {
         return (
-            <ul>
-                {this.state.habits.map(habit => (
-                    <Habit habit={habit}/>
+            <>
+                <HabitAddForm onAdd={this.handleAdd}/>
+                <ul>
+                {this.props.habits.map(habit => (
+                    <Habit 
+                        key={habit.id} 
+                        habit={habit} 
+                        onIncrement={this.handleIncrement}
+                        onDecrement={this.handleDecrement}
+                        onDelete={this.handleDelete}
+                    />
                 ))}
-            </ul>
+                </ul>
+            </>
         );
     }
 }
